@@ -1,8 +1,9 @@
 try:
-  import rich.traceback
-  rich.traceback.install()
+    import rich.traceback
+
+    rich.traceback.install()
 except ImportError:
-  pass
+    pass
 
 from .core import *
 
