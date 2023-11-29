@@ -56,7 +56,7 @@ if __name__ == "__main__":
         log_keys_mean=".*",
         log_keys_max=".*",
         from_checkpoint=model_path + "/checkpoint.ckpt",
-        steps=1000000,
+        steps=100000000,
     )
     embodied.run.eval_only(agent, env, logger, args)
 

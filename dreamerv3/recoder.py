@@ -23,14 +23,12 @@ data
 
 
 class RecordHDF5Env(embodied.Env):
-    def __init__(self, env, hdf5_filename, buffer_size=1000):
+    def __init__(self, env, hdf5_filename, save_interval=10):
         self.env = env
         self.hdf5_filename = hdf5_filename
-        self.file = h5py.File(hdf5_filename, "w")
-        self.data_group = self.file.create_group("obs")
-        self.buffer = []
-        self.buffer_size = buffer_size
-        self.frame_count = 0
+        self.save_interval = save_interval
+        self.episode_buffers = []
+        self.current_episode = 0
 
     def __len__(self):
         return len(self.env)
@@ -48,45 +46,52 @@ class RecordHDF5Env(embodied.Env):
 
     def step(self, action):
         obs = self.env.step(action)
-        self._record_obs(obs, action)
+
         if obs["is_first"]:
-            self._flush_buffer(is_first=True)
-        elif len(self.buffer) >= self.buffer_size:
-            self._flush_buffer(is_first=False)
+            self.current_episode += 1
+            self._start_new_episode()
+
+        self._record_obs(obs, action)
+
+        if obs["is_last"]:
+            if len(self.episode_buffers) >= self.save_interval:
+                self._save_episodes_data()
+                self.episode_buffers.clear()
+
         return obs
 
-    def _record_obs(self, obs, action, is_first=False):
-        self.buffer.append(obs)
-        self.frame_count += 1
+    def _record_obs(self, obs, action):
+        obs_copy = obs.copy()
+        obs_copy["action"] = action["action"]
+        obs_copy["is_first"] = obs_copy["is_first"]
+        self.episode_buffers[-1].append((obs_copy))
 
-    def _flush_buffer(self, is_first=False):
-        if is_first:
-            if "start_idx" not in self.data_group:
-                self.data_group.create_dataset(
-                    "start_idx", data=[self.frame_count], maxshape=(None,)
+    def _start_new_episode(self):
+        self.episode_buffers.append([])
+
+    def _save_episodes_data(self):
+        with h5py.File(self.hdf5_filename, "a") as file:
+            num_episodes_to_save = len(self.episode_buffers)
+
+            for i in range(num_episodes_to_save):
+                episode_name = (
+                    f"episode_{self.current_episode - num_episodes_to_save + i}"
                 )
+                episode_group = file.create_group(episode_name)
 
-        for key in self.buffer[0]:
-            data = np.array([obs[key] for obs in self.buffer])
-
-            if key in self.data_group:
-                dset = self.data_group[key]
-                dset.resize((dset.shape[0] + data.shape[0],) + dset.shape[1:])
-                dset[-data.shape[0] :] = data
-            else:
-                self.data_group.create_dataset(
-                    key, data=data, maxshape=(None,) + data.shape[1:]
-                )
-
-        self.buffer = []
+                for key in self.episode_buffers[i][0]:
+                    data = np.array(
+                        [
+                            obs_action_pair[key][0]
+                            for obs_action_pair in self.episode_buffers[i]
+                        ]
+                    )
+                    episode_group.create_dataset(key, data=data)
 
     def render(self):
         return self.env.render()
 
     def close(self):
-        self._flush_buffer()
-        self.file.close()
+        if self.episode_buffers:
+            self._save_episodes_data()
         self.env.close()
-
-    def __del__(self):
-        self.close()
