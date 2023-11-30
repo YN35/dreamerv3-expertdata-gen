@@ -24,7 +24,7 @@ from dreamerv3.recoder import RecordHDF5Env
 
 model_path = "models/crafter0"
 logdir = "logs/crafter0-eval"
-dataset_dir = "~/datasets/dremer_expertdata/crafter0"
+dataset_dir = "/home/ynn/datasets/dremer_expertdata/crafter.hdf5"
 
 if __name__ == "__main__":
     from dreamerv3 import agent as agt
