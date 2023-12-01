@@ -5,23 +5,6 @@ import json
 import embodied
 
 
-"""
-network
-  o_t-1  o_t  o_t+1
-    |     |     |
-    v     v     v
-   a_t  a_t+1  a_t+2
-env
-    |     |     |
-    v     v     v
-   o_t  o_t+1  END
-
-data
-  o_t-1 | o_t | o_t+1
-  a_t-1 | a_t | a_t+1
-"""
-
-
 class RecordHDF5Env(embodied.Env):
     def __init__(self, env, hdf5_filename, save_interval=10):
         self.env = env
@@ -86,7 +69,17 @@ class RecordHDF5Env(embodied.Env):
                             for obs_action_pair in self.episode_buffers[i]
                         ]
                     )
-                    episode_group.create_dataset(key, data=data)
+                    if key == "image":
+                        data = data.astype(np.uint8)
+                    else:
+                        data = data.astype(np.float32)
+                    episode_group.create_dataset(
+                        key,
+                        data=data,
+                        compression="gzip",
+                        compression_opts=4,
+                        chunks=True,
+                    )
 
     def render(self):
         return self.env.render()
