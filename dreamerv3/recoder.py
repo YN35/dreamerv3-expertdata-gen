@@ -6,7 +6,7 @@ import embodied
 
 
 class RecordHDF5Env(embodied.Env):
-    def __init__(self, env, hdf5_filename, save_interval=10):
+    def __init__(self, env, hdf5_filename, save_interval=30):
         self.env = env
         self.hdf5_filename = hdf5_filename
         self.save_interval = save_interval
@@ -80,6 +80,11 @@ class RecordHDF5Env(embodied.Env):
                         compression_opts=4,
                         chunks=True,
                     )
+                episode_length = len(self.episode_buffers[i])
+                episode_group.create_dataset(
+                    "episode_length",
+                    data=np.array([episode_length], dtype=np.int32),
+                )
 
     def render(self):
         return self.env.render()

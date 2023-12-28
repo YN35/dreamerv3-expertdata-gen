@@ -23,8 +23,8 @@ from dreamerv3.train import make_logger, make_replay, make_envs
 from dreamerv3.recoder import RecordHDF5Env
 
 model_path = "models/crafter0"
-logdir = "logs/crafter0-eval"
-dataset_dir = "/home/ynn/datasets/dremer_expertdata/crafter.hdf5"
+logdir = "logs/crafter0-1"
+dataset_dir = "/home/ynn/datasets/dremer_expertdata/crafter-l.hdf5"
 
 if __name__ == "__main__":
     from dreamerv3 import agent as agt
@@ -56,7 +56,7 @@ if __name__ == "__main__":
         log_keys_mean=".*",
         log_keys_max=".*",
         from_checkpoint=model_path + "/checkpoint.ckpt",
-        steps=100000000,
+        steps=1000000000000,
     )
     embodied.run.eval_only(agent, env, logger, args)
 
