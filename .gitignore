@@ -8,3 +8,4 @@ MUJOCO_LOG.TXT
 logs/
 models/
 *.hdf5
+recorded/
