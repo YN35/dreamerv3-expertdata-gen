@@ -1,6 +1,6 @@
 import h5py
 import numpy as np
-import json
+import uuid
 
 import embodied
 
@@ -11,7 +11,6 @@ class RecordHDF5Env(embodied.Env):
         self.hdf5_filename = hdf5_filename
         self.save_interval = save_interval
         self.episode_buffers = []
-        self.current_episode = 0
 
     def __len__(self):
         return len(self.env)
@@ -31,7 +30,6 @@ class RecordHDF5Env(embodied.Env):
         obs = self.env.step(action)
 
         if obs["is_first"]:
-            self.current_episode += 1
             self._start_new_episode()
 
         self._record_obs(obs, action)
@@ -57,9 +55,7 @@ class RecordHDF5Env(embodied.Env):
             num_episodes_to_save = len(self.episode_buffers)
 
             for i in range(num_episodes_to_save):
-                episode_name = (
-                    f"episode_{self.current_episode - num_episodes_to_save + i}"
-                )
+                episode_name = str(uuid.uuid4())
                 episode_group = file.create_group(episode_name)
 
                 for key in self.episode_buffers[i][0]:
