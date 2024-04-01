@@ -20,11 +20,12 @@ __package__ = directory.name
 from dreamerv3 import embodied
 from dreamerv3.embodied import wrappers
 from dreamerv3.train import make_logger, make_replay, make_envs
-from dreamerv3.recoder import RecordHDF5Env
+from dreamerv3.recoder import RecordHDF5Env, RecordMP4JSONEnv
 
 model_path = "models/crafter0"
 logdir = "logs/crafter0-1"
-dataset_dir = "/home/ynn/datasets/dremer_expertdata/crafter-l.hdf5"
+dataset_dir = "/home/ynn/datasets/crafter_expertdata/val"
+# dataset_dir = "test/"
 
 if __name__ == "__main__":
     from dreamerv3 import agent as agt
@@ -44,7 +45,7 @@ if __name__ == "__main__":
 
     cleanup = []
     env_native = make_envs(config)  # mode='eval'
-    env = RecordHDF5Env(env_native, dataset_dir)
+    env = RecordMP4JSONEnv(env_native, dataset_dir)
     cleanup.append(env)
     agent = agt.Agent(env.obs_space, env.act_space, step, config)
     args = embodied.Config(
