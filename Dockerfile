@@ -56,18 +56,18 @@ RUN pip install \
     kornia==0.6.5 \
     matplotlib==3.7.4 \
     moviepy==1.0.3 \
-    numpy==1.23 \
+    numpy==1.23.5 \
     opencv-python==4.8.1.78 \
     packaging==23.2 \
     Pillow==9.5.0 \
     protobuf==3.20.3 \
     pygame==2.5.2 \
     pyglet==2.0.10 \
-    PyYAML==5.3.1 \
+    PyYAML==6.0.1 \
     av==12.0.0 \
     pyrender==0.1.45 \
     requests==2.31.0 \
-    ruamel.yaml==0.18.5 \
+    ruamel.yaml==0.17.31 \
     shapely==2.0.2 \
     sk-video==1.1.10 \
     tensorboard==2.14.0 \
@@ -93,4 +93,4 @@ ENV GCS_READ_REQUEST_TIMEOUT_SECS=300
 ENV GCS_WRITE_REQUEST_TIMEOUT_SECS=600
 
 # Embodied
-RUN pip3 install numpy cloudpickle ruamel.yaml rich zmq msgpack
+RUN pip3 install cloudpickle rich zmq msgpack
