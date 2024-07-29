@@ -74,15 +74,49 @@ RUN pip install \
     tqdm==4.66.1 \
     typing==3.7.4.3 \
     beartype==0.1.1 \
-    omegaconf==2.3.0 \
-    numpy==1.24.1
+    omegaconf==2.3.0
+
+
+RUN pip install setuptools==69.5.1 wheel==0.43.0
+RUN pip install --upgrade pip
+
+RUN pip install ale_py==0.8.1 autorom[accept-rom-license]
+RUN pip install memory_maze==1.0.3
+
+# Install MuJoCo
+RUN mkdir /root/.mujoco/
+RUN pip install cython
+COPY mjkey.txt /root/.mujoco/
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/root/.mujoco/mujoco200/bin
+ENV MUJOCO_PY_MJKEY_PATH=/root/.mujoco/mjkey.txt
+ENV MUJOCO_PY_MUJOCO_PATH=/root/.mujoco/mujoco200
+RUN cd /root/ && \
+    wget https://www.roboti.us/download/mujoco200_linux.zip && \
+    unzip mujoco200_linux.zip && \
+    mv mujoco200_linux /root/.mujoco/mujoco200 && \
+    pip install mujoco_py==2.0.2.8 && \
+    rm mujoco200_linux.zip
+RUN pip install "cython<3"
+
+# Install metaworld
+RUN pip install git+https://github.com/rlworkgroup/metaworld.git@v2.0.0
+
+# Install dm_control
+RUN pip install git+https://github.com/google-deepmind/dm_control.git@1.0.16
+ENV PYOPENGL_PLATFORM=egl
+ENV MUJOCO_GL=egl
+
+# Install mjrl
+RUN pip install git+https://github.com/aravindr93/mjrl.git
+
 
 # Agent
 # RUN pip3 install jax[cuda11_cudnn82] -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html
 # RUN pip3 install jaxlib
-RUN pip3 install tensorflow_probability
-RUN pip3 install optax
-# RUN pip3 install tensorflow-cpu
+RUN pip install numpy==1.24.1
+RUN pip install tensorflow_probability==0.24.0
+RUN pip install optax==0.2.2
+RUN pip install tensorflow-cpu
 ENV XLA_PYTHON_CLIENT_MEM_FRACTION 0.8
 
 # Google Cloud DNS cache (optional)
