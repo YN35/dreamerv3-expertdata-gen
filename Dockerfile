@@ -29,7 +29,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     unzip \
     vim \
     wget \
-    zip \
+    zip
 
 # Install python packages
 RUN pip install pip==24.0 setuptools==59.5.0 wheel==0.34.2
