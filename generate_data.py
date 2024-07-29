@@ -24,7 +24,7 @@ from dreamerv3.recoder import RecordHDF5Env, RecordMP4JSONEnv
 
 model_path = "models/crafter0"
 logdir = "logs/crafter0-1"
-dataset_dir = "/home/ynn/datasets/crafter_expertdata/val"
+dataset_dir = "/home/ynn/datasets/crafter_expertdata/train"
 # dataset_dir = "test/"
 
 if __name__ == "__main__":

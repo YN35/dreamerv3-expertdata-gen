@@ -23,6 +23,18 @@ To learn more:
 - [Project website][website]
 - [Twitter summary][tweet]
 
+## How to train
+```sh
+python dreamerv3/train.py \
+  --logdir ~/logdir/$(date "+%Y%m%d-%H%M%S") \
+  --configs crafter
+```
+
+## How to generate data
+```sh
+
+```
+
 ## DreamerV3
 
 DreamerV3 learns a world model from experiences and uses it to train an actor
