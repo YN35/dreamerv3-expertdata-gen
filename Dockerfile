@@ -15,37 +15,74 @@
 # tensorboard --logdir ~/logdir
 
 # System
-FROM nvidia/cuda:11.4.2-cudnn8-devel-ubuntu20.04
-ARG DEBIAN_FRONTEND=noninteractive
-ENV TZ=America/San_Francisco
-ENV PYTHONUNBUFFERED 1
-ENV PIP_DISABLE_PIP_VERSION_CHECK 1
-ENV PIP_NO_CACHE_DIR 1
-RUN apt-get update && apt-get install -y \
-  ffmpeg git python3-pip vim libglew-dev \
-  x11-xserver-utils xvfb \
-  && apt-get clean
-RUN pip3 install --upgrade pip
+FROM nvcr.io/nvidia/jax:24.04-py3
+USER root
 
-# Envs
-ENV MUJOCO_GL egl
-ENV DMLAB_DATASET_PATH /dmlab_data
-COPY scripts scripts
-RUN sh scripts/install-dmlab.sh
-RUN sh scripts/install-atari.sh
-RUN sh scripts/install-minecraft.sh
-ENV NUMBA_CACHE_DIR=/tmp
-RUN pip3 install crafter
-RUN pip3 install dm_control
-RUN pip3 install robodesk
-RUN pip3 install bsuite
+RUN apt-get update
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+    cmake \
+    curl \
+    ffmpeg \
+    freeglut3-dev \
+    gcc \
+    git \
+    unzip \
+    vim \
+    wget \
+    zip \
+
+# Install python packages
+RUN pip install pip==24.0 setuptools==59.5.0 wheel==0.34.2
+RUN pip install \
+    gym==0.21.0 \
+    autorom==0.4.2 \
+    gym[accept-rom-license] \
+    atari_py==0.2.9 \
+    minedojo==0.1 \
+    carla==0.9.15 \
+    crafter==1.8.2
+
+RUN pip install setuptools==69.5.1 wheel==0.43.0
+RUN pip install \
+    distro==1.9.0 \
+    dotmap==1.3.30 \
+    easydict==1.11 \
+    gdown==4.7.1 \
+    gradio==4.10.0 \
+    h5py==3.10.0 \
+    imageio==2.33.1 \
+    importlib_resources==5.13.0 \
+    ipdb==0.13.13 \
+    kornia==0.6.5 \
+    matplotlib==3.7.4 \
+    moviepy==1.0.3 \
+    numpy==1.23 \
+    opencv-python==4.8.1.78 \
+    packaging==23.2 \
+    Pillow==9.5.0 \
+    protobuf==3.20.3 \
+    pygame==2.5.2 \
+    pyglet==2.0.10 \
+    PyYAML==5.3.1 \
+    av==12.0.0 \
+    pyrender==0.1.45 \
+    requests==2.31.0 \
+    ruamel.yaml==0.18.5 \
+    shapely==2.0.2 \
+    sk-video==1.1.10 \
+    tensorboard==2.14.0 \
+    termcolor==2.4.0 \
+    tqdm==4.66.1 \
+    typing==3.7.4.3 \
+    beartype==0.1.1 \
+    omegaconf==2.3.0
 
 # Agent
-RUN pip3 install jax[cuda11_cudnn82] -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html
-RUN pip3 install jaxlib
+# RUN pip3 install jax[cuda11_cudnn82] -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html
+# RUN pip3 install jaxlib
 RUN pip3 install tensorflow_probability
 RUN pip3 install optax
-RUN pip3 install tensorflow-cpu
+# RUN pip3 install tensorflow-cpu
 ENV XLA_PYTHON_CLIENT_MEM_FRACTION 0.8
 
 # Google Cloud DNS cache (optional)
@@ -57,7 +94,3 @@ ENV GCS_WRITE_REQUEST_TIMEOUT_SECS=600
 
 # Embodied
 RUN pip3 install numpy cloudpickle ruamel.yaml rich zmq msgpack
-COPY . /embodied
-RUN chown -R 1000:root /embodied && chmod -R 775 /embodied
-
-WORKDIR embodied
