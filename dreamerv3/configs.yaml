@@ -18,8 +18,8 @@ defaults:
     debug_nans: False
     logical_cpus: 0
     debug: False
-    policy_devices: [0]
-    train_devices: [0]
+    policy_devices: [1]
+    train_devices: [1]
     metrics_every: 10
 
   run:

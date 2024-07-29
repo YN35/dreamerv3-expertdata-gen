@@ -56,7 +56,6 @@ RUN pip install \
     kornia==0.6.5 \
     matplotlib==3.7.4 \
     moviepy==1.0.3 \
-    numpy==1.23.5 \
     opencv-python==4.8.1.78 \
     packaging==23.2 \
     Pillow==9.5.0 \
@@ -75,7 +74,8 @@ RUN pip install \
     tqdm==4.66.1 \
     typing==3.7.4.3 \
     beartype==0.1.1 \
-    omegaconf==2.3.0
+    omegaconf==2.3.0 \
+    numpy==1.24.1
 
 # Agent
 # RUN pip3 install jax[cuda11_cudnn82] -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html

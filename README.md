@@ -26,7 +26,7 @@ To learn more:
 ## How to train
 ```sh
 python dreamerv3/train.py \
-  --logdir ~/logdir/$(date "+%Y%m%d-%H%M%S") \
+  --logdir ./logs/$(date "+%Y%m%d-%H%M%S") \
   --configs crafter
 ```
 
