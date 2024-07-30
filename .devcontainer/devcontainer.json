@@ -10,7 +10,7 @@
     ],
     "mounts": [
         "source=/home/ynn/code/search/dreamerv3-expertdata-gen,target=/home/root/dreamerv3-expertdata-gen,type=bind",
-        "source=/mnt/data1/ynn/expertdata,target=/expertdata,type=bind"
+        "source=/mnt/data2/ynn/expertdata,target=/expertdata,type=bind"
     ],
     "workspaceFolder": "/home/root/dreamerv3-expertdata-gen",
     "customizations": {

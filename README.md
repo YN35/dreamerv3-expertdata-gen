@@ -25,9 +25,27 @@ To learn more:
 
 ## How to train
 ```sh
-python dreamerv3/train.py \
-  --logdir ./logs/$(date "+%Y%m%d-%H%M%S") \
-  --configs crafter
+python dreamerv3/train.py --logdir ./logdir/crafter --configs crafter
+```
+### 実際に用いたコマンド
+```sh
+python dreamerv3/train.py --logdir ./logdir/crafter --configs crafter --jax.policy_devices 2 --jax.train_devices 2
+```
+
+```sh
+python dreamerv3/train.py --logdir ./logdir/minecraft --configs minecraft --jax.policy_devices 2 --jax.train_devices 2
+```
+
+```sh
+python dreamerv3/train.py --logdir ./logdir/dmc_walker_walk --configs dmc_vision --task dmc_walker_walk --jax.policy_devices 2 --jax.train_devices 2
+```
+
+```sh
+python dreamerv3/train.py --logdir ./logdir/atari_pong --configs atari100k --task atari_pong --jax.policy_devices 2 --jax.train_devices 2
+```
+
+```sh
+python dreamerv3/train.py --logdir ./logdir/atari_alien --configs atari100k --task atari_alien --jax.policy_devices 2 --jax.train_devices 2
 ```
 
 ## How to generate data
