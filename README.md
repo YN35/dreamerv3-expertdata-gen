@@ -29,23 +29,23 @@ python dreamerv3/train.py --logdir ./logdir/crafter --configs crafter
 ```
 ### 実際に用いたコマンド
 ```sh
-python dreamerv3/train.py --logdir ./logdir/crafter --configs crafter --jax.policy_devices 2 --jax.train_devices 2
+nohup python dreamerv3/train.py --logdir ./logdir/crafter --configs crafter --jax.policy_devices 1 --jax.train_devices 1 > crafter.out
 ```
 
 ```sh
-python dreamerv3/train.py --logdir ./logdir/minecraft --configs minecraft --jax.policy_devices 2 --jax.train_devices 2
+nohup python dreamerv3/train.py --logdir ./logdir/minecraft --configs minecraft --jax.policy_devices 2 --jax.train_devices 2 > minecraft.out
 ```
 
 ```sh
-python dreamerv3/train.py --logdir ./logdir/dmc_walker_walk --configs dmc_vision --task dmc_walker_walk --jax.policy_devices 2 --jax.train_devices 2
+nohup python dreamerv3/train.py --logdir ./logdir/dmc_walker_walk --configs dmc_vision --task dmc_walker_walk --jax.policy_devices 2 --jax.train_devices 2 > dmc_walker_walk.out
 ```
 
 ```sh
-python dreamerv3/train.py --logdir ./logdir/atari_pong --configs atari100k --task atari_pong --jax.policy_devices 2 --jax.train_devices 2
+nohup python dreamerv3/train.py --logdir ./logdir/atari_pong --configs atari100k --task atari_pong --jax.policy_devices 3 --jax.train_devices 3 > atari_pong.out
 ```
-
+---
 ```sh
-python dreamerv3/train.py --logdir ./logdir/atari_alien --configs atari100k --task atari_alien --jax.policy_devices 2 --jax.train_devices 2
+nohup python dreamerv3/train.py --logdir ./logdir/atari_alien --configs atari100k --task atari_alien --jax.policy_devices 1 --jax.train_devices 1 > atari_alien.out
 ```
 
 ## How to generate data
