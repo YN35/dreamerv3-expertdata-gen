@@ -103,7 +103,7 @@ defaults:
 
 gym_vision:
 
-  task: gym_InvertedPendulum-v4
+  task: gym_MiniGrid-Empty-Random-6x6-v0
   run.train_ratio: 512
   rssm.deter: 512
   .*\.cnn_depth: 32
