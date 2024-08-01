@@ -101,6 +101,17 @@ defaults:
   disag_target: [stoch]
   disag_models: 8
 
+gym_vision:
+
+  task: gym_InvertedPendulum-v4
+  run.train_ratio: 512
+  rssm.deter: 512
+  .*\.cnn_depth: 32
+  .*\.layers: 2
+  .*\.units: 512
+  encoder: {mlp_keys: '$^', cnn_keys: 'image'}
+  decoder: {mlp_keys: '$^', cnn_keys: 'image'}
+
 minecraft:
 
   task: minecraft_diamond
