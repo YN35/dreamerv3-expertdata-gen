@@ -31,6 +31,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
     git vim libglew2.2 libgl1-mesa-glx libosmesa6 \
     ffmpeg wget unrar cmake g++ libgl1-mesa-dev \
     libx11-6 openjdk-8-jdk x11-xserver-utils xvfb \
+    screen \
     && apt-get clean
 
 # Install python packages

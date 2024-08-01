@@ -10,3 +10,5 @@ logdir/
 models/
 *.hdf5
 recorded/
+
+.devcontainer/

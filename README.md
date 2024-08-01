@@ -23,34 +23,107 @@ To learn more:
 - [Project website][website]
 - [Twitter summary][tweet]
 
+## .devcontainer
+```json
+{
+    "name": "ynn-dreamerv3",
+    "image": "dreamerv3",
+    "runArgs": [
+        "--net=host",
+        "--ipc=host",
+        "--gpus",
+        "all",
+        "--privileged"
+    ],
+    "mounts": [
+        "source=/home/ynn/code/search/dreamerv3-expertdata-gen,target=/home/root/dreamerv3-expertdata-gen,type=bind",
+        "source=/mnt/data2/ynn/expertdata,target=/expertdata,type=bind"
+    ],
+    "workspaceFolder": "/home/root/dreamerv3-expertdata-gen",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "ms-python.vscode-pylance",
+                "ms-python.black-formatter",
+                "ms-azuretools.vscode-docker",
+                "github.copilot",
+                "github.vscode-pull-request-github"
+            ]
+        }
+    }
+}
+```
+
 ## How to train
 ```sh
 python dreamerv3/train.py --logdir ./logdir/crafter --configs crafter
 ```
 ### 実際に用いたコマンド
 ```sh
-nohup python dreamerv3/train.py --logdir ./logdir/crafter --configs crafter --jax.policy_devices 1 --jax.train_devices 1 > crafter.out
+python dreamerv3/train.py --logdir ./logdir/dmc_walker_walk --configs dmc_vision --task dmc_walker_walk --jax.policy_devices 2 --jax.train_devices 2
 ```
 
 ```sh
-nohup python dreamerv3/train.py --logdir ./logdir/minecraft --configs minecraft --jax.policy_devices 2 --jax.train_devices 2 > minecraft.out
+python dreamerv3/train.py --logdir ./logdir/crafter --configs crafter --jax.policy_devices 1 --jax.train_devices 1
 ```
 
 ```sh
-nohup python dreamerv3/train.py --logdir ./logdir/dmc_walker_walk --configs dmc_vision --task dmc_walker_walk --jax.policy_devices 2 --jax.train_devices 2 > dmc_walker_walk.out
+python dreamerv3/train.py --logdir ./logdir/atari_pong --configs atari100k --task atari_pong --jax.policy_devices 3 --jax.train_devices 3
 ```
 
 ```sh
-nohup python dreamerv3/train.py --logdir ./logdir/atari_pong --configs atari100k --task atari_pong --jax.policy_devices 3 --jax.train_devices 3 > atari_pong.out
+python dreamerv3/train.py --logdir ./logdir/atari_alien --configs atari100k --task atari_alien --jax.policy_devices 1 --jax.train_devices 1
 ```
----
+
 ```sh
-nohup python dreamerv3/train.py --logdir ./logdir/atari_alien --configs atari100k --task atari_alien --jax.policy_devices 1 --jax.train_devices 1 > atari_alien.out
+python dreamerv3/train.py --logdir ./logdir/dmc_reacher_easy --configs dmc_vision --task dmc_reacher_easy --jax.policy_devices 0 --jax.train_devices 0
 ```
+
+```sh
+# Titan
+python dreamerv3/train.py --logdir ./logdir/dmc_cartpole_balance --configs dmc_vision --task dmc_cartpole_balance --jax.policy_devices 0 --jax.train_devices 0
+```
+
+```sh
+# Titan
+python dreamerv3/train.py --logdir ./logdir/dmc_cartpole_balance --configs dmc_vision --task dmc_cartpole_balance --jax.policy_devices 0 --jax.train_devices 0
+```
+
+
 
 ## How to generate data
 ```sh
 
+```
+
+## How to run
+screenコマンド最低限
+
+起動
+```sh
+screen -S name
+```
+
+ID確認
+```sh
+screen -ls
+```
+
+終了
+```sh
+screen -X -S ID quit
+```
+
+再接続(Attach)
+```sh
+screen -r ID
+```
+
+Detach
+```sh
+Ctrl + a
+d
 ```
 
 ## DreamerV3
