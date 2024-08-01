@@ -87,10 +87,13 @@ python dreamerv3/train.py --logdir ./logdir/dmc_cartpole_balance --configs dmc_v
 
 ```sh
 # Titan
-python dreamerv3/train.py --logdir ./logdir/dmc_cartpole_balance --configs dmc_vision --task dmc_cartpole_balance --jax.policy_devices 0 --jax.train_devices 0
+python dreamerv3/train.py --logdir ./logdir/dmc_cup_catch --configs dmc_vision --task dmc_cup_catch --jax.policy_devices 0 --jax.train_devices 0
 ```
 
-
+```sh
+# Titan
+python dreamerv3/train.py --logdir ./logdir/atari_asterix --configs atari100k --task atari_asterix --jax.policy_devices 0 --jax.train_devices 0
+```
 
 ## How to generate data
 ```sh
