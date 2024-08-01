@@ -13,11 +13,11 @@
             "justMyCode": true,
             "args": [
                 "--logdir",
-                "./logdir/dmc_cartpole_balance-debug",
+                "./logdir/gym_inverted_pendulum-debug",
                 "--configs",
                 "dmc_vision",
                 "--task",
-                "dmc_cartpole_balance",
+                "gym_InvertedPendulum-v4",
                 "--jax.policy_devices",
                 "0",
                 "--jax.train_devices",
