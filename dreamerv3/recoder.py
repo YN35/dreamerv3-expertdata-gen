@@ -61,12 +61,7 @@ class RecordHDF5Env(embodied.Env):
                 episode_group = file.create_group(episode_name)
 
                 for key in self.episode_buffers[i][0]:
-                    data = np.array(
-                        [
-                            obs_action_pair[key][0]
-                            for obs_action_pair in self.episode_buffers[i]
-                        ]
-                    )
+                    data = np.array([obs_action_pair[key][0] for obs_action_pair in self.episode_buffers[i]])
                     if key == "image":
                         with imageio.get_writer("temp.mp4", fps=20) as writer:
                             for obs_action_pair in self.episode_buffers[i]:
@@ -120,13 +115,13 @@ class RecordMP4JSONEnv(embodied.Env):
     def step(self, action):
         obs = self.env.step(action)
 
-        if obs["is_first"]:
+        if obs["is_first"].any():
             self.current_episode += 1
             self._start_new_episode()
 
         self._record_obs(obs, action)
 
-        if obs["is_last"]:
+        if obs["is_last"].any():
             if len(self.episode_buffers) >= self.save_interval:
                 self._save_episodes_data()
                 self.episode_buffers.clear()
@@ -154,12 +149,7 @@ class RecordMP4JSONEnv(embodied.Env):
 
             json_data = {}
             for key in self.episode_buffers[i][0]:
-                data = np.array(
-                    [
-                        obs_action_pair[key][0]
-                        for obs_action_pair in self.episode_buffers[i]
-                    ]
-                )
+                data = np.array([obs_action_pair[key][0] for obs_action_pair in self.episode_buffers[i]])
                 if key == "image":
                     with imageio.get_writer(video_filename, fps=10) as writer:
                         for obs_action_pair in self.episode_buffers[i]:

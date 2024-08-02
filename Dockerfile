@@ -23,16 +23,27 @@ ENV TZ=America/San_Francisco
 ENV PYTHONUNBUFFERED 1
 ENV PIP_DISABLE_PIP_VERSION_CHECK 1
 ENV PIP_NO_CACHE_DIR 1
+ARG DEBIAN_FRONTEND=noninteractive
+ENV XLA_PYTHON_CLIENT_MEM_FRACTION 0.8
 
 RUN apt-get update
 RUN apt-cache search libglew
-RUN DEBIAN_FRONTEND=noninteractive \
-    apt-get install -y \
+RUN apt-get install -y \
     git vim libglew2.2 libgl1-mesa-glx libosmesa6 \
     ffmpeg wget unrar cmake g++ libgl1-mesa-dev \
-    libx11-6 openjdk-8-jdk x11-xserver-utils xvfb \
-    screen \
-    && apt-get clean
+    libx11-6 x11-xserver-utils xvfb \
+    software-properties-common screen \
+    htop bzip2 ca-certificates gcc
+
+# Customized for your own application. MineRL (https://github.com/minerllabs/minerl) is installed for testing purposes.
+# java jdk 1.8
+RUN apt update -y && apt install -y software-properties-common && \
+    add-apt-repository ppa:openjdk-r/ppa && apt update -y && \
+    apt install -y openjdk-8-jdk && \
+    rm -rf /var/lib/apt/lists/* && \
+    update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
+
+RUN apt-get clean
 
 # Install python packages
 RUN pip3 install pip==24.0 setuptools==59.5.0 wheel==0.34.2

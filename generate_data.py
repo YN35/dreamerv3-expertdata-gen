@@ -22,15 +22,17 @@ from dreamerv3.embodied import wrappers
 from dreamerv3.train import make_logger, make_replay, make_envs
 from dreamerv3.recoder import RecordHDF5Env, RecordMP4JSONEnv
 
-model_path = "models/crafter0"
-logdir = "logs/crafter0-1"
-dataset_dir = "/home/ynn/datasets/crafter_expertdata/train"
+model_path = "logdir/atari_pong"
+logdir = "logdir/atari_pong-eval"
+dataset_dir = "/expertdata/train/atari_pong"
 # dataset_dir = "test/"
 
 if __name__ == "__main__":
     from dreamerv3 import agent as agt
 
     config = embodied.Config.load(model_path + "/config.yaml")
+    config = config.update({"envs.amount": 1})
+    config = config.update({"jax.policy_devices": (1,), "jax.train_devices": (1,)})
     print(config)
 
     logdir = embodied.Path(logdir)
@@ -57,7 +59,7 @@ if __name__ == "__main__":
         log_keys_mean=".*",
         log_keys_max=".*",
         from_checkpoint=model_path + "/checkpoint.ckpt",
-        steps=1000000000000,
+        steps=10000000,
     )
     embodied.run.eval_only(agent, env, logger, args)
 
