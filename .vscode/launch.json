@@ -21,6 +21,24 @@
                 "--jax.train_devices",
                 "0"
             ]
+        },
+        {
+            "name": "eval dmc",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "--logdir",
+                "./logdir/dmc_cartpole_balance-debug",
+                "--configs dmc_vision",
+                "--task dmc_cartpole_balance",
+                "--jax.policy_devices",
+                "0",
+                "--jax.train_devices",
+                "0"
+            ]
         }
     ]
 }

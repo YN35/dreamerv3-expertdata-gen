@@ -77,6 +77,10 @@ python dreamerv3/train.py --logdir ./logdir/atari_alien --configs atari100k --ta
 ```
 
 ```sh
+python dreamerv3/train.py --logdir ./logdir/atari_ms_pacman --configs atari100k --task atari_ms_pacman --jax.policy_devices 1 --jax.train_devices 1
+```
+
+```sh
 python dreamerv3/train.py --logdir ./logdir/dmc_reacher_easy --configs dmc_vision --task dmc_reacher_easy --jax.policy_devices 0 --jax.train_devices 0
 ```
 
@@ -97,7 +101,7 @@ python dreamerv3/train.py --logdir ./logdir/atari_asterix --configs atari100k --
 
 ## How to generate data
 ```sh
-
+XLA_PYTHON_CLIENT_PREALLOCATE=false python generate_data.py
 ```
 
 ## How to run

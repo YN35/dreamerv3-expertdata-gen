@@ -24,7 +24,7 @@ ENV PYTHONUNBUFFERED 1
 ENV PIP_DISABLE_PIP_VERSION_CHECK 1
 ENV PIP_NO_CACHE_DIR 1
 ARG DEBIAN_FRONTEND=noninteractive
-ENV XLA_PYTHON_CLIENT_MEM_FRACTION 0.8
+ENV XLA_PYTHON_CLIENT_MEM_FRACTION .8
 
 RUN apt-get update
 RUN apt-cache search libglew
@@ -34,6 +34,9 @@ RUN apt-get install -y \
     libx11-6 x11-xserver-utils xvfb \
     software-properties-common screen \
     htop bzip2 ca-certificates gcc
+
+RUN rm -rf /var/lib/apt/lists/*
+RUN apt-get clean
 
 # Customized for your own application. MineRL (https://github.com/minerllabs/minerl) is installed for testing purposes.
 # java jdk 1.8
@@ -58,7 +61,7 @@ ENV NUMBA_CACHE_DIR=/tmp
 RUN pip3 install gym==0.19.0
 RUN pip3 install mujoco==2.3.5
 RUN pip3 install dm_control==1.0.9
-RUN pip3 install moviepy
+RUN pip3 install moviepy==1.0.3
 
 # crafter setup
 RUN pip3 install crafter==1.8.1
