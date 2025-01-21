@@ -2,6 +2,7 @@ import numpy as np
 import pathlib
 import sys
 import warnings
+import argparse
 from functools import partial as bind
 from collections import namedtuple
 
@@ -12,7 +13,6 @@ warnings.filterwarnings("ignore", ".*truncated to dtype int32.*")
 
 directory = pathlib.Path(__file__).resolve()
 directory = directory.parent
-sys.path.append(str(directory.parent))
 sys.path.append(str(directory.parent.parent))
 sys.path.append(str(directory.parent.parent.parent))
 __package__ = directory.name
@@ -20,12 +20,6 @@ __package__ = directory.name
 from dreamerv3 import embodied
 from dreamerv3.train import make_logger, make_envs
 from dreamerv3.recoder import RecordMP4JSONEnv
-
-# model_path = "logdir/dmc_walker_walk"
-# dataset_dir = "/data/expertdata/train/dmc_walker_walk"
-
-model_path = "logdir/atari_pong"
-dataset_dir = "/data/expertdata/train/atari_pong"
 
 
 def eval_only(agent, env, args):
@@ -53,30 +47,34 @@ def eval_only(agent, env, args):
 
 
 if __name__ == "__main__":
+    # Argument parser for model_path and dataset_dir
+    parser = argparse.ArgumentParser(description="Evaluation script for DreamerV3 model.")
+    parser.add_argument("--model_path", required=True, help="Path to the model directory.")
+    parser.add_argument("--dataset_dir", required=True, help="Path to the dataset directory.")
+    args = parser.parse_args()
+
     from dreamerv3 import agent as agt
 
-    config = embodied.Config.load(model_path + "/config.yaml")
+    config = embodied.Config.load(args.model_path + "/config.yaml")
     config = config.update({"envs.amount": 1})
     config = config.update({"jax.policy_devices": (2,), "jax.train_devices": (2,)})
     print(config)
 
     step = embodied.Counter()
 
-    # update_config = embodied.Config({'env': {'crafter': {'outdir': "recorded"}}})
-
-    # config.update(update_config)
-
     cleanup = []
     env_native = make_envs(config)  # mode='eval'
-    env = RecordMP4JSONEnv(env_native, dataset_dir, parallel=(config.envs.parallel != "none"))
+    env = RecordMP4JSONEnv(env_native, args.dataset_dir, parallel=(config.envs.parallel != "none"))
     cleanup.append(env)
     agent = agt.Agent(env.obs_space, env.act_space, step, config)
-    args = embodied.Config(
+    eval_args = embodied.Config(
         logdir=config.logdir,
-        from_checkpoint=model_path + "/checkpoint.ckpt",
+        from_checkpoint=args.model_path + "/checkpoint.ckpt",
         steps=10000000,
     )
-    eval_only(agent, env, args)
+    eval_only(agent, env, eval_args)
 
     for obj in cleanup:
         obj.close()
+
+# python generate_data.py --model_path logdir/atari_pong --dataset_dir /data/expertdata/train/atari_pong
