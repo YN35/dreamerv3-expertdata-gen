@@ -57,6 +57,9 @@ To learn more:
 
 ## How to train
 ```sh
+tensorboard --logdir ./logdir
+```
+```sh
 python dreamerv3/train.py --logdir ./logdir/crafter --configs crafter
 ```
 ### 実際に用いたコマンド
