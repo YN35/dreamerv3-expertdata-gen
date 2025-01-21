@@ -1,4 +1,5 @@
 import os
+import gzip
 import json
 import uuid
 import numpy as np
@@ -18,6 +19,10 @@ class RecordMP4JSONEnv(embodied.Env):
         self.recode_keys = ["reward", "action", "image"]
         self.recode_keys.extend(recode_keys)
         os.makedirs(self.output_dir, exist_ok=True)
+
+        self.discrete_action = False
+        if all(self.act_space["action"].high == 1) and all(self.act_space["action"].low == 0):
+            self.discrete_action = True
 
     def __len__(self):
         return len(self.env)
@@ -50,6 +55,8 @@ class RecordMP4JSONEnv(embodied.Env):
         recode = {}
         obs_copy = obs.copy()
         obs_copy["action"] = action["action"]
+        if self.discrete_action:
+            obs_copy["action"] = np.argmax(obs_copy["action"], axis=-1)
         for key in self.recode_keys:
             recode[key] = obs_copy[key]
         self.episode_buffers[-1].append(recode)
@@ -77,13 +84,14 @@ class RecordMP4JSONEnv(embodied.Env):
                         data_list = data.tolist()
                         json_data[key] = data_list
 
-                    episode_length = len(self.episode_buffers[e])
-                    json_data["episode_length"] = episode_length
+                episode_length = len(self.episode_buffers[e])
+                json_data["episode_length"] = episode_length
+                json_data["reward_sum"] = np.sum(json_data["reward"])
 
-                    # JSON data for other data
-                    json_filename = os.path.join(self.output_dir, f"{episode_uid}.json")
-                    with open(json_filename, "w") as json_file:
-                        json.dump(json_data, json_file)
+                # JSON data for other data
+                json_filename = os.path.join(self.output_dir, f"{episode_uid}.json.gz")
+                with gzip.open(json_filename, mode="wt", encoding="utf-8") as f:
+                    json.dump(json_data, f, ensure_ascii=False, indent=2)
 
     def render(self):
         return self.env.render()

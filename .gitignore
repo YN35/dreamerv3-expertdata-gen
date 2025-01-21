@@ -9,6 +9,7 @@ logs/
 logdir/
 models/
 *.hdf5
+*.out
 recorded/
 
 .devcontainer/

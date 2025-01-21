@@ -39,6 +39,23 @@
                 "--jax.train_devices",
                 "0"
             ]
+        },
+        {
+            "name": "gen atari",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "generate.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "--model",
+                "logdir/atari_pong",
+                "--dataset",
+                "test/atari_pong",
+            ],
+            "env": {
+                "CUDA_VISIBLE_DEVICES": "0"
+            }
         }
     ]
 }

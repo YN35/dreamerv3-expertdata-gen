@@ -150,7 +150,7 @@ atari100k:
   env.atari: {gray: False, repeat: 4, sticky: False, noops: 30, actions: needed}
   run:
     script: train_eval
-    steps: 1.5e5
+    steps: 3.0e5
     eval_every: 1e5
     eval_initial: False
     eval_eps: 100

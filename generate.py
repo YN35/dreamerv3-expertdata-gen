@@ -49,27 +49,27 @@ def eval_only(agent, env, args):
 if __name__ == "__main__":
     # Argument parser for model_path and dataset_dir
     parser = argparse.ArgumentParser(description="Evaluation script for DreamerV3 model.")
-    parser.add_argument("--model_path", required=True, help="Path to the model directory.")
-    parser.add_argument("--dataset_dir", required=True, help="Path to the dataset directory.")
+    parser.add_argument("--model", required=True, help="Path to the model directory.")
+    parser.add_argument("--dataset", required=True, help="Path to the dataset directory.")
     args = parser.parse_args()
 
     from dreamerv3 import agent as agt
 
-    config = embodied.Config.load(args.model_path + "/config.yaml")
+    config = embodied.Config.load(args.model + "/config.yaml")
     config = config.update({"envs.amount": 1})
-    config = config.update({"jax.policy_devices": (2,), "jax.train_devices": (2,)})
+    config = config.update({"jax.policy_devices": (0,), "jax.train_devices": (0,)})
     print(config)
 
     step = embodied.Counter()
 
     cleanup = []
     env_native = make_envs(config)  # mode='eval'
-    env = RecordMP4JSONEnv(env_native, args.dataset_dir, parallel=(config.envs.parallel != "none"))
+    env = RecordMP4JSONEnv(env_native, args.dataset, parallel=(config.envs.parallel != "none"))
     cleanup.append(env)
     agent = agt.Agent(env.obs_space, env.act_space, step, config)
     eval_args = embodied.Config(
         logdir=config.logdir,
-        from_checkpoint=args.model_path + "/checkpoint.ckpt",
+        from_checkpoint=args.model + "/checkpoint.ckpt",
         steps=10000000,
     )
     eval_only(agent, env, eval_args)
