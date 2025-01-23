@@ -1,13 +1,8 @@
-# CUDA_VISIBLE_DEVICES=0 nohup python generate.py --model models/crafter --dataset /data/mimic_arena/crafter > crafter_gen.out
-CUDA_VISIBLE_DEVICES=1 nohup python generate.py --model models/atari_alien --dataset /data/mimic_arena/atari_alien > atari_alien_gen.out
-CUDA_VISIBLE_DEVICES=2 nohup python generate.py --model models/atari_bank_heist --dataset /data/mimic_arena/atari_bank_heist > atari_bank_heist_gen.out
-CUDA_VISIBLE_DEVICES=3 nohup python generate.py --model models/atari_boxing --dataset /data/mimic_arena/atari_boxing > atari_boxing_gen.out
-CUDA_VISIBLE_DEVICES=0 nohup python generate.py --model models/atari_breakout --dataset /data/mimic_arena/atari_breakout > atari_breakout_gen.out
-CUDA_VISIBLE_DEVICES=1 nohup python generate.py --model models/atari_crazy_climber --dataset /data/mimic_arena/atari_crazy_climber > atari_crazy_climber_gen.out
-CUDA_VISIBLE_DEVICES=2 nohup python generate.py --model models/atari_hero --dataset /data/mimic_arena/atari_hero > atari_hero_gen.out
-CUDA_VISIBLE_DEVICES=3 nohup python generate.py --model models/atari_kangaroo --dataset /data/mimic_arena/atari_kangaroo > atari_kangaroo_gen.out
-CUDA_VISIBLE_DEVICES=0 nohup python generate.py --model models/atari_krull --dataset /data/mimic_arena/atari_krull > atari_krull_gen.out
-CUDA_VISIBLE_DEVICES=1 nohup python generate.py --model models/atari_ms_pacman --dataset /data/mimic_arena/atari_ms_pacman > atari_ms_pacman_gen.out
-CUDA_VISIBLE_DEVICES=2 nohup python generate.py --model models/atari_pong --dataset /data/mimic_arena/atari_pong > atari_pong_gen.out
-CUDA_VISIBLE_DEVICES=3 nohup python generate.py --model models/atari_qbert --dataset /data/mimic_arena/atari_qbert > atari_qbert_gen.out
-CUDA_VISIBLE_DEVICES=0 nohup python generate.py --model models/atari_road_runner --dataset /data/mimic_arena/atari_road_runner > atari_road_runner_gen.out
+# XLA_PYTHON_CLIENT_PREALLOCATE=false CUDA_VISIBLE_DEVICES=0 nohup python generate.py --model models/crafter --dataset /data/mimic_arena/crafter > crafter_gen.out
+XLA_PYTHON_CLIENT_PREALLOCATE=false CUDA_VISIBLE_DEVICES=1 nohup python generate.py --model models/atari_alien --dataset /data/mimic_arena/atari_alien > atari_alien_gen.out
+XLA_PYTHON_CLIENT_PREALLOCATE=false CUDA_VISIBLE_DEVICES=2 nohup python generate.py --model models/atari_breakout --dataset /data/mimic_arena/atari_breakout > atari_breakout_gen.out
+XLA_PYTHON_CLIENT_PREALLOCATE=false CUDA_VISIBLE_DEVICES=3 nohup python generate.py --model models/atari_chopper_command --dataset /data/mimic_arena/atari_chopper_command > atari_chopper_command_gen.out
+XLA_PYTHON_CLIENT_PREALLOCATE=false CUDA_VISIBLE_DEVICES=0 nohup python generate.py --model models/atari_hero --dataset /data/mimic_arena/atari_hero > atari_hero_gen.out
+XLA_PYTHON_CLIENT_PREALLOCATE=false CUDA_VISIBLE_DEVICES=1 nohup python generate.py --model models/atari_private_eye --dataset /data/mimic_arena/atari_private_eye > atari_private_eye_gen.out
+XLA_PYTHON_CLIENT_PREALLOCATE=false CUDA_VISIBLE_DEVICES=2 nohup python generate.py --model models/atari_montezuma_revenge --dataset /data/mimic_arena/atari_montezuma_revenge > atari_montezuma_revenge_gen.out
+XLA_PYTHON_CLIENT_PREALLOCATE=false CUDA_VISIBLE_DEVICES=3 nohup python generate.py --model models/atari_solitaire --dataset /data/mimic_arena/atari_solaris > atari_solaris_gen.out
